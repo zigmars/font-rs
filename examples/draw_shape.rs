@@ -17,6 +17,7 @@
 extern crate font_rs;
 
 use std::io::{stdout, Write};
+use std::fs::File;
 
 use font_rs::geom::Point;
 use font_rs::raster::Raster;
@@ -58,12 +59,29 @@ fn draw_shape(r: &mut Raster, s: f32) {
     );
 }
 
+fn dump_pgm(w: usize, h: usize, data: &Vec<u8>, out: &str) {
+    let mut o = File::create(&out).expect("cannot create output file");
+    let _ = o.write(format!("P5\n{} {}\n255\n", w, h).as_bytes());
+    println!("data len = {}", data.len());
+    let _ = o.write(&data);
+}
+
+// use std::io::stderr;
+
 fn main() {
     let w = 400;
     let h = 400;
     let mut r = Raster::new(w, h);
     draw_shape(&mut r, 4.0);
-    let mut o = stdout();
-    let _ = o.write(format!("P5\n{} {}\n255\n", w, h).as_bytes());
-    let _ = o.write(&r.get_bitmap());
+    let bm = r.get_bitmap();
+    // let mut e = stderr();
+    // let _ = e.write(format!("{}", bm.len()).as_bytes());
+
+    // let mut o = stdout();
+    // let _ = o.write(format!("P5\n{} {}\n255\n", w, h).as_bytes());
+    // let _ = o.write(&bm);
+    let mut args = std::env::args();
+    let _ = args.next();
+    let out_fn = args.next().expect("missing output file");
+    dump_pgm(w, h, &bm, &out_fn);
 }

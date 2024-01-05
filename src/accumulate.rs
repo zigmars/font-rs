@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use std::mem;
-
 #[cfg(target_arch = "x86_64")]
 use std::arch::x86_64::*;
 

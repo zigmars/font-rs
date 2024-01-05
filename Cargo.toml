@@ -9,3 +9,10 @@ repository = "https://github.com/google/font-rs"
 
 [features]
 sse = []
+
+[[bin]]
+name = "draw_shape"
+path = "examples/draw_shape.rs"
+[[bin]]
+name = "render"
+path = "examples/render.rs"

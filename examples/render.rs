@@ -21,7 +21,7 @@ use std::time::SystemTime;
 use font_rs::font::{parse, GlyphBitmap};
 
 fn dump_pgm(glyph: &GlyphBitmap, out_filename: &str) {
-    let mut o = File::create(&out_filename).unwrap();
+    let mut o = File::create(&out_filename).expect("cannot create output file");
     let _ = o.write(format!("P5\n{} {}\n255\n", glyph.width, glyph.height).as_bytes());
     println!("data len = {}", glyph.data.len());
     let _ = o.write(&glyph.data);
@@ -30,10 +30,10 @@ fn dump_pgm(glyph: &GlyphBitmap, out_filename: &str) {
 fn main() {
     let mut args = std::env::args();
     let _ = args.next();
-    let filename = args.next().unwrap();
-    let glyph_id: u16 = args.next().unwrap().parse().unwrap();
-    let out_filename = args.next().unwrap();
-    let mut f = File::open(&filename).unwrap();
+    let filename = args.next().expect("missing input file");
+    let glyph_id: u16 = args.next().expect("missing glyph_id").parse().expect("failed parsing glyph_id");
+    let out_filename = args.next().expect("missing output file");
+    let mut f = File::open(&filename).expect("cannot open input file");
     let mut data = Vec::new();
     match f.read_to_end(&mut data) {
         Err(e) => println!("failed to read {}, {}", filename, e),

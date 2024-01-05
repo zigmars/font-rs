@@ -606,7 +606,7 @@ struct ContourSizes<'a> {
 
 impl<'a> Iterator for ContourSizes<'a> {
     type Item = usize;
-    fn next(&mut self) -> Option<(usize)> {
+    fn next(&mut self) -> Option<usize> {
         if self.contours_remaining == 0 {
             None
         } else {
