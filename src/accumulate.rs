@@ -23,6 +23,9 @@ macro_rules! _mm_shuffle {
         ($z << 6) | ($y << 4) | ($x << 2) | $w
     };
 }
+#[cfg(feature = "alloc")]
+extern crate alloc;
+use alloc::vec::Vec;
 
 #[cfg(feature = "sse")]
 pub fn accumulate(src: &[f32]) -> Vec<u8> {
@@ -64,6 +67,7 @@ pub fn accumulate(src: &[f32]) -> Vec<u8> {
     dst
 }
 
+use nostdhf::F32Ext;
 #[cfg(not(feature = "sse"))]
 pub fn accumulate(src: &[f32]) -> Vec<u8> {
     let mut acc = 0.0;

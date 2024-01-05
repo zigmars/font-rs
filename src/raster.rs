@@ -17,6 +17,10 @@
 use accumulate::accumulate;
 use geom::Point;
 
+#[cfg(feature = "alloc")]
+extern crate alloc;
+use alloc::vec::Vec;
+
 // TODO: sort out crate structure. Right now we want this when compiling raster as a binary,
 // but need it commented out when compiling showttf
 //mod geom;
@@ -28,10 +32,8 @@ pub struct Raster {
 }
 
 // TODO: is there a faster way? (investigate whether approx recip is good enough)
-fn recip(x: f32) -> f32 {
-    x.recip()
-}
-
+// extern crate nostdhf;
+use nostdhf::F32Ext;
 impl Raster {
     pub fn new(w: usize, h: usize) -> Raster {
         Raster {
@@ -116,7 +118,7 @@ impl Raster {
         let n = 1 + (tol * (devx * devx + devy * devy)).sqrt().sqrt().floor() as usize;
         //println!("n = {}", n);
         let mut p = *p0;
-        let nrecip = recip(n as f32);
+        let nrecip = (n as f32).recip();
         let mut t = 0.0;
         for _i in 0..n - 1 {
             t += nrecip;

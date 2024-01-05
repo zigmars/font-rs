@@ -14,15 +14,18 @@
 
 //! A simple renderer for TrueType fonts
 
-use std::collections::HashMap;
-use std::fmt;
-use std::fmt::{Debug, Display, Formatter};
-use std::result::Result;
+use alloc::collections::BTreeMap;
+use core::fmt;
+use core::fmt::{Debug, Display, Formatter};
+use core::result::Result;
 
 use geom::{affine_pt, Affine, Point};
 use raster::Raster;
-
-#[derive(PartialEq, Eq, Hash)]
+// #![no_std]
+use alloc::vec::Vec;
+use alloc::string::String;
+use nostdhf::F32Ext;
+#[derive(PartialEq, Eq, Hash, Ord, PartialOrd)]
 struct Tag(u32);
 
 impl Tag {
@@ -710,7 +713,7 @@ impl<'a> CompoundGlyph<'a> {
 
 pub struct Font<'a> {
     _version: u32,
-    _tables: HashMap<Tag, &'a [u8]>,
+    _tables: BTreeMap<Tag, &'a [u8]>,
     head: Head<'a>,
     maxp: Maxp<'a>,
     cmap: Option<Cmap<'a>>,
@@ -794,7 +797,7 @@ impl<'a> Font<'a> {
                 }
             }
             _ => {
-                println!("unhandled glyph case");
+                // println!("unhandled glyph case");
             }
         }
     }
@@ -831,7 +834,7 @@ impl<'a> Font<'a> {
                 })
             }
             _ => {
-                println!("glyph {} error", glyph_id);
+                // println!("glyph {} error", glyph_id);
                 None
             }
         }
@@ -1049,7 +1052,7 @@ pub fn parse(data: &[u8]) -> Result<Font, FontError> {
     let _search_range = get_u16(data, 6).unwrap();
     let _entry_selector = get_u16(data, 8).unwrap();
     let _range_shift = get_u16(data, 10).unwrap();
-    let mut tables = HashMap::new();
+    let mut tables = BTreeMap::new();
     for i in 0..num_tables {
         let header = &data[12 + i * 16..12 + (i + 1) * 16];
         let tag = get_u32(header, 0).unwrap();

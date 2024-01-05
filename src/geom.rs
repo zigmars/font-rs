@@ -14,7 +14,11 @@
 
 //! Geometry primitive data structures and manipulations
 
-use std::fmt::{Debug, Formatter, Result};
+use core::fmt::{Debug, Formatter, Result};
+
+#[cfg(feature = "alloc")]
+extern crate alloc;
+use gen_new;
 
 #[derive(Copy, Clone)]
 pub struct Point {

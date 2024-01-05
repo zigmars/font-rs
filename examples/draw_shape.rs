@@ -16,7 +16,7 @@
 
 extern crate font_rs;
 
-use std::io::{stdout, Write};
+use std::io::Write;
 use std::fs::File;
 
 use font_rs::geom::Point;

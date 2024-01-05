@@ -7,12 +7,16 @@ keywords = ["font", "truetype", "ttf"]
 description = "A font renderer written (mostly) in pure, safe Rust"
 repository = "https://github.com/google/font-rs"
 
+[dependencies]
+embedded-alloc = "0.5.1"
+nostdhf = "0.1.1"
+
 [features]
 sse = []
 
-[[bin]]
-name = "draw_shape"
-path = "examples/draw_shape.rs"
-[[bin]]
-name = "render"
-path = "examples/render.rs"
+# [[bin]]
+# name = "draw_shape"
+# path = "examples/draw_shape.rs"
+# [[bin]]
+# name = "render"
+# path = "examples/render.rs"

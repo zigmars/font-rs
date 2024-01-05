@@ -14,7 +14,11 @@
 
 //! A very high performance font renderer.
 
+#![no_std]
 #[macro_use]
+extern crate alloc;
+extern crate nostdhf;
+
 pub mod macros;
 pub mod accumulate;
 pub mod font;
